@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caché con Memcached</title>
+</head>
+<body>
+    <h1>Búsqueda con Caché</h1>
+    <input type="text" id="query" placeholder="Escribe algo...">
+    <button onclick="search()">Buscar</button>
+    <div id="result"></div>
+
+    <script>
+        async function search() {
+            const query = document.getElementById('query').value;
+            const response = await fetch(`/search?q=${query}`);
+            const data = await response.json();
+            
+            if (data.error) {
+                document.getElementById('result').innerHTML = data.error;
+                return;
+            }
+            
+            document.getElementById('result').innerHTML = `
+                <p><strong>Resultado:</strong> ${data.data}</p>
+                <p><em>Fuente: ${data.source}</em></p>
+            `;
+        }
+    </script>
+</body>
+</html>
